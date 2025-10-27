@@ -33,7 +33,7 @@ export function Navbar({ scrollY }: NavbarProps) {
                 className="w-6 h-6 relative z-10"
               />
             </div>
-            <span className="text-2xl font-bold text-white">Bolt</span>
+            <span className="text-2xl font-bold text-white">QiwiiVe AI</span>
           </div>
         </div>
         <div className="flex items-center space-x-6">
