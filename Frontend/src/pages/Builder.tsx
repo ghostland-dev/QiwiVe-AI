@@ -58,6 +58,103 @@ export function Builder() {
   const [steps, setSteps] = useState<Step[]>([]);
   const [files, setFiles] = useState<FileItem[]>([]);
 
+  // Function to create a new file
+  const handleCreateFile = async (path: string, content: string) => {
+    if (!webcontainer) return;
+    
+    try {
+      // Ensure the file exists in the filesystem
+      await webcontainer.fs.writeFile(path, content);
+      
+      // Add to local file structure
+      const pathParts = path.split('/').filter(Boolean);
+      const name = pathParts[pathParts.length - 1];
+      
+      // Update files state
+      setFiles(prevFiles => {
+        const newFile: FileItem = {
+          name,
+          type: 'file',
+          path: `/${pathParts.join('/')}`,
+          content
+        };
+        
+        // Find the parent folder and add the file
+        let current = prevFiles;
+        for (let i = 0; i < pathParts.length - 1; i++) {
+          const folder = current.find(f => f.name === pathParts[i] && f.type === 'folder');
+          if (!folder) {
+            current.push({
+              name: pathParts[i],
+              type: 'folder',
+              path: `/${pathParts.slice(0, i + 1).join('/')}`,
+              children: []
+            } as FileItem);
+            current = current[current.length - 1].children!;
+          } else {
+            current = folder.children!;
+          }
+        }
+        
+        if (!current.find(f => f.path === newFile.path)) {
+          current.push(newFile);
+        }
+        
+        return [...prevFiles];
+      });
+    } catch (error) {
+      console.error('Error creating file:', error);
+    }
+  };
+
+  // Function to create a new folder
+  const handleCreateFolder = async (path: string) => {
+    if (!webcontainer) return;
+    
+    try {
+      // Create the directory
+      await webcontainer.fs.mkdir(path);
+      
+      // Update files state
+      const pathParts = path.split('/').filter(Boolean);
+      const name = pathParts[pathParts.length - 1];
+      
+      setFiles(prevFiles => {
+        const newFolder: FileItem = {
+          name,
+          type: 'folder',
+          path: `/${pathParts.join('/')}`,
+          children: []
+        };
+        
+        // Find the parent and add the folder
+        let current = prevFiles;
+        for (let i = 0; i < pathParts.length - 1; i++) {
+          const folder = current.find(f => f.name === pathParts[i] && f.type === 'folder');
+          if (!folder) {
+            current.push({
+              name: pathParts[i],
+              type: 'folder',
+              path: `/${pathParts.slice(0, i + 1).join('/')}`,
+              children: []
+            } as FileItem);
+            current = current[current.length - 1].children!;
+          } else {
+            current = folder.children!;
+          }
+        }
+        
+        if (!current.find(f => f.path === newFolder.path)) {
+          current.push(newFolder);
+        }
+        
+        return [...prevFiles];
+      });
+    } catch (error) {
+      console.error('Error creating folder:', error);
+    }
+  };
+
   // Process steps to generate files
   useEffect(() => {
     let originalFiles = [...files];
@@ -355,7 +452,7 @@ export function Builder() {
               alt="Bolt Logo" 
               className="w-6 h-6 relative z-10" 
             />
-            <h1 className="text-xl font-semibold text-white">Bolt</h1>
+            <h1 className="text-xl font-semibold text-white">QiwiiVe AI</h1>
             </button>
           <div className="h-6 mx-4 border-r border-gray-700"></div>
           <h2 className="text-gray-300 hidden sm:block">Website Builder</h2>
@@ -453,12 +550,12 @@ export function Builder() {
                           value={userPrompt}
                           onChange={(e) => setPrompt(e.target.value)}
                           placeholder="Add more instructions or modifications..."
-                          className="w-full p-3 bg-gray-800 text-gray-200 rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-none placeholder-gray-500 text-sm h-20"
+                          className="w-full p-3 bg-gray-800 text-gray-200 rounded-lg border border-gray-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none placeholder-gray-500 text-sm h-20"
                         ></textarea>
                         <button
                           onClick={handleSendMessage}
                           disabled={userPrompt.trim().length === 0}
-                          className="absolute right-3 bottom-3 p-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-full transition-colors"
+                          className="absolute right-3 bottom-3 p-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-full transition-colors"
                         >
                           <Send className="w-4 h-4" />
                         </button>
@@ -490,7 +587,12 @@ export function Builder() {
             </button>
           </div>
           <div className="flex-1 overflow-auto">
-            <FileExplorer files={files} onFileSelect={setSelectedFile} />
+            <FileExplorer 
+              files={files} 
+              onFileSelect={setSelectedFile}
+              onCreateFile={handleCreateFile}
+              onCreateFolder={handleCreateFolder}
+            />
           </div>
         </motion.div>
 
@@ -566,7 +668,7 @@ export function Builder() {
                     </p>
                     <button
                       onClick={handleRefreshWebContainer}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-colors"
                     >
                       <RefreshCw className="h-4 w-4" />
                       Retry

@@ -31,15 +31,15 @@ export function HeroSection({ prompt, setPrompt }: HeroSectionProps) {
             Transform Ideas into Websites
             <br />
             <div className='flex flex-col'>
-            <span className="bg-clip-text text-blue-400 font-semibold bg-gradient-to-r from-blue-400 to-blue-600">
-              Powered by <span className='text-blue-500'>A!</span>
+            <span className="bg-clip-text text-emerald-400 font-semibold bg-gradient-to-r from-emerald-400 to-emerald-600">
+              Powered by <span className='text-emerald-500'>AI</span>
             </span>
             </div>
           </h1>
 
           <p className="text-base  font-normal text-gray-400 max-w-2xl mx-auto">
             Simply describe, create, and customize your website in seconds with
-            <span className="text-blue-400 font-semibold"> Bolt</span>
+            <span className="text-emerald-400 font-semibold"> QiwiiVe AI</span>
           </p>
         </motion.div>
 
@@ -66,7 +66,7 @@ export function HeroSection({ prompt, setPrompt }: HeroSectionProps) {
             <div className="p-3">
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-1.5 bg-blue-500/90 hover:bg-blue-600 text-white py-2.5 px-5 rounded-md font-medium text-sm transition-all border border-blue-400/40 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"
+                className="w-full flex items-center justify-center gap-1.5 bg-emerald-500/90 hover:bg-emerald-600 text-white py-2.5 px-5 rounded-md font-medium text-sm transition-all border border-emerald-400/40 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-1"
               >
                 <span>Generate Website</span>
                 <ArrowRight className="w-4 h-4" />

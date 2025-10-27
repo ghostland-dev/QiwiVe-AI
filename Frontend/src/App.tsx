@@ -6,12 +6,13 @@ import { AppProvider } from './context/AppContext';
 import './index.css';
 
 function App() {
-  const isProduction = process.env.NODE_ENV === 'production';
+  // Désactiver Analytics en local ou dans Docker
+  const shouldEnableAnalytics = process.env.VITE_ENABLE_VERCEL_ANALYTICS === 'true';
   
   return (
     <AppProvider>
       <BrowserRouter>
-        {isProduction && <Analytics />}
+        {shouldEnableAnalytics && <Analytics />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/builder" element={<Builder />} />

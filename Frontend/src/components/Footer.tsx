@@ -12,7 +12,7 @@ export function Footer() {
                 className="w-6 h-6 relative z-10"
               />
             </div>
-            <span className="text-2xl font-bold text-white">Bolt</span>
+            <span className="text-2xl font-bold text-white">QiwiiVe AI</span>
           </div>
 
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
@@ -39,7 +39,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 mb-4 md:mb-0">
-            © 2025 Bolt. All rights reserved.
+            © 2025 QiwiiVe AI. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <a
