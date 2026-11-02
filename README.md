@@ -164,3 +164,10 @@ Have ideas, feedback, or want to collab?
 ---
 
 > Made with 💡 using React, Gemini, Express, and pure AI magic ✨
+
+## Author
+
+**Ismail.M**, Software Engineer & DevOps
+
+- GitHub: [@ghostland-dev](https://github.com/ghostland-dev)
+- Website: [ismail-mouyahada.com](https://www.ismail-mouyahada.com)
